@@ -1,3 +1,8 @@
+/*
+ *Rust discourages accessing the internal representation of objects
+ *but there is a trick to do that
+ */
+
 fn as_bytes<T>(o: &T) -> &[u8] {
     unsafe { std::slice::from_raw_parts(o as *const _ as *const u8, std::mem::size_of::<T>()) }
 }
