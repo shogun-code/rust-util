@@ -3,7 +3,7 @@ name: Publish to crates.io
 on:
   push:
     tags:
-      - v*
+      - v*i # Only runs when tag matches v*
 env:
   CARGO_TERM_COLOR: always
 

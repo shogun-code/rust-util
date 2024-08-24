@@ -1,5 +1,6 @@
 name: Build & test
 
+# Builds will only run on Git pushes and pull requests for the main branch
 on:
   push:
     branches: [main]
@@ -18,10 +19,10 @@ jobs:
     strategy:
       matrix:
         rust:
-          - stable
+          - stable # Runs with stable, beta and nightly channels
           # - beta
           - nightly
-        features:
+        features: # Runs tests with different features enabled separately
           - serde
           - base64
           - simd_backend
@@ -30,7 +31,7 @@ jobs:
           - ubuntu-latest
           - macos-latest
           - windows-latest
-        exclude:
+        exclude: # Some build combinations don’t work, so they’re disabled here.
           - rust: stable
             features: simd_backend
           - rust: beta
@@ -45,7 +46,7 @@ jobs:
       - name: Setup ${{ matrix.rust }} Rust toolchain with caching
         uses: brndnmtthws/rust-action@v1
         with:
-          toolchain: ${{ matrix.rust }}
+          toolchain: ${{ matrix.rust }} # This step installs the desired toolchain.
       - run: cargo build --features ${{ env.FEATURES }}
       - run: cargo test --features ${{ env.FEATURES }}
         env:
